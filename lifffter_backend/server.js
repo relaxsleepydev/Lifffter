@@ -1,6 +1,10 @@
 // this is our Express.js server running on Node.js.
+import 'dotenv/config';
 import express from 'express';
 import poolInst from './database/db.js';
+import authRoutes from './routes/authRoutes.js';
+import userRouters from './routes/userRoutes.js';
+import workoutRoutes from './routes/workoutRoutes.js';
 
 const app = express();
 const PORT = 3000;
@@ -11,9 +15,9 @@ app.use(express.json()); // built in middleware function
 // use() method is basically telling express to register 
 // the function that express.json() returns whenever a request comes.
 
-app.get("/", (req, res) => { 
-  res.send("Hello, World!");
-});
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/users', userRouters);
+app.use('/api/v1/workouts', workoutRoutes);
 
 app.get("/db-time", async (req, res) => {
   try {
