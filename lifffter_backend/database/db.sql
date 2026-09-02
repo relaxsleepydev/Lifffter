@@ -28,6 +28,8 @@ CREATE TABLE exercises (
     primary_muscle VARCHAR(100) NOT NULL
 );
 
+
+
 CREATE TABLE routine_exercises (
     exercise_id UUID NOT NULL,
     routine_id UUID NOT NULL,
@@ -96,3 +98,7 @@ CREATE TABLE set_logs (
     REFERENCES exercises(id)
     ON DELETE CASCADE
 );
+
+INSERT INTO exercises (name, primary_muscle) VALUES ('Pendlay Row', 'Back');
+INSERT INTO exercises (name, primary_muscle) VALUES ('Smith Incline Bench', 'Chest');
+INSERT INTO exercises (name, primary_muscle) VALUES ('EZ Barbell Curl', 'Bicep');

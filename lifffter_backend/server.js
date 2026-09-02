@@ -4,7 +4,11 @@ import express from 'express';
 import poolInst from './database/db.js';
 import authRoutes from './routes/authRoutes.js';
 import userRouters from './routes/userRoutes.js';
-import workoutRoutes from './routes/workoutRoutes.js';
+import workoutRoutineRoutes from './routes/workoutRoutineRoutes.js';
+import exerciseRoutes from './routes/exerciseRoutes.js';
+import routineExerciseRoutes from './routes/routineExerciseRoutes.js';
+import workoutSessionRoutes from './routes/workoutSessionRoutes.js';
+import setLogsRoutes from './routes/setLogsRoutes.js';
 
 const app = express();
 const PORT = 3000;
@@ -17,7 +21,11 @@ app.use(express.json()); // built in middleware function
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRouters);
-app.use('/api/v1/workouts', workoutRoutes);
+app.use('/api/v1/workouts', workoutRoutineRoutes);
+app.use('/api/v1/exercises', exerciseRoutes);
+app.use('/api/v1/routine-exercises', routineExerciseRoutes);
+app.use('/api/v1/sessions', workoutSessionRoutes);
+app.use('/api/v1/sets', setLogsRoutes);
 
 app.get("/db-time", async (req, res) => {
   try {
