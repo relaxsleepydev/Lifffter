@@ -48,22 +48,14 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+//    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     // Add-ons
-    implementation(libs.androidx.compose.material.icons.core)
-
-    // navigation
-    implementation(libs.navigation.compose)
-
-    // Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.gson)
-
+    implementation("androidx.compose.material:material-icons-core")
 
     // Room
     implementation(libs.room.runtime)
@@ -87,10 +79,6 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(platform(libs.androidx.compose.bom.v20240600)) // Or latest
-    implementation(libs.androidx.ui)
-    implementation(libs.material3)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.activity.compose.v190)
 
 // ViewModel & Lifecycle State (For collectAsStateWithLifecycle)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
