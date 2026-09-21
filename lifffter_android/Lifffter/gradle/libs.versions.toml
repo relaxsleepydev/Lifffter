@@ -1,6 +1,6 @@
 [versions]
 activityComposeVersion = "1.13.0"
-agp = "9.3.2"
+agp = "9.4.0"
 composeBomVersion = "2026.08.00"
 converterGson = "3.0.0"
 coreKtx = "1.19.0"

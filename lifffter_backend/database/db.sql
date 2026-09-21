@@ -14,8 +14,9 @@ CREATE TABLE workout_routine (
     updated_at TIMESTAMPTZ DEFAULT now(),
     is_deleted BOOLEAN DEFAULT False,
 
+    -- this means a user cant create two routines with same name
     CONSTRAINT unique_user_routine UNIQUE (user_id, routine_name),
-
+    
     CONSTRAINT workout_const
     FOREIGN KEY (user_id)
     REFERENCES users(id)
@@ -27,8 +28,6 @@ CREATE TABLE exercises (
     name VARCHAR(100) NOT NULL UNIQUE,
     primary_muscle VARCHAR(100) NOT NULL
 );
-
-
 
 CREATE TABLE routine_exercises (
     exercise_id UUID NOT NULL,

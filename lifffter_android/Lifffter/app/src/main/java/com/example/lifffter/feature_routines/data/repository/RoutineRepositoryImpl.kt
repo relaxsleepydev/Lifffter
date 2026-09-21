@@ -31,7 +31,10 @@ class RoutineRepositoryImpl @Inject constructor(
 
     override suspend fun syncRoutine() {
         try {
+            // fetching routines from server.
             val dtos = api.fetchRoutines()
+
+            // mapping the dto to entities using .map
             val mappedEntities = dtos.map { routineDTO ->
                 RoutineEntity(
                     id = routineDTO.id,
@@ -39,6 +42,8 @@ class RoutineRepositoryImpl @Inject constructor(
                     targetMuscleGroup = routineDTO.targetMuscleGroup
                 )
             }
+
+            // inserted the mapped entities in the db
             dao.insertRoutines(mappedEntities)
         } catch(error: Exception) {
             Log.e("Lifffter_Network", "Sync Failed", error)

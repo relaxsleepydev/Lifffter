@@ -1,4 +1,4 @@
-package com.example.lifffter.feature_routines.presentation
+package com.example.lifffter.feature_routines.presentation.routines
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.lifffter.feature_routines.presentation.RoutineEvent
+import com.example.lifffter.feature_routines.presentation.RoutineViewModel
 
 @Composable
 fun RoutineScreen(viewModel: RoutineViewModel = hiltViewModel()) {

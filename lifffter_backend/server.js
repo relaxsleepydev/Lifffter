@@ -13,7 +13,7 @@ import setLogsRoutes from './routes/setLogsRoutes.js';
 const app = express();
 const PORT = 3000;
 
-app.use(express.json()); // built in middleware function 
+app.use(express.json()); // built-in middleware function 
 // express.json(): parses incoming requests with JSON payloads
 // (JSON payload carries actual *INFORMATION*).
 // use() method is basically telling express to register 
@@ -27,6 +27,7 @@ app.use('/api/v1/routine-exercises', routineExerciseRoutes);
 app.use('/api/v1/sessions', workoutSessionRoutes);
 app.use('/api/v1/sets', setLogsRoutes);
 
+// keeping it and will look at it in future
 app.get("/db-time", async (req, res) => {
   try {
     const result = await poolInst.query('SELECT NOW()');
@@ -44,7 +45,6 @@ app.listen(PORT, async () => { // since there is no need for callback function r
   // Without this, any startup errors will silently fail
   // instead of giving you a helpful error message.
   console.log(`My first Express app - listening on port ${PORT}!`);
-
   try {
     const dbTest = await poolInst.query('SELECT NOW()');
     console.log('PostgreSQL connected successfully at: ', dbTest.rows[0].now);

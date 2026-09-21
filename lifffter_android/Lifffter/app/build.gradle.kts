@@ -105,4 +105,6 @@ dependencies {
     implementation(libs.androidx.hilt.work)
     ksp(libs.androidx.hilt.compiler) // Note: This is androidx.hilt, not google.dagger
 
+    implementation("androidx.datastore:datastore-preferences:1.2.1")
+
 }
