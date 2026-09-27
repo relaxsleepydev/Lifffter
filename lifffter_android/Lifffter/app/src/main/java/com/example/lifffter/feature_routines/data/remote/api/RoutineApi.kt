@@ -5,7 +5,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 
-interface RoutineAPI {
+interface RoutineApi {
     @GET("api/v1/workouts")
     suspend fun fetchRoutines(): List<RoutineDTO>
 

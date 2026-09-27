@@ -2,7 +2,7 @@ package com.example.lifffter.feature_routines.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.lifffter.feature_routines.domain.model.Routine
+import com.example.lifffter.core.domain.model.Routine
 import com.example.lifffter.feature_routines.domain.repository.RoutineRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject

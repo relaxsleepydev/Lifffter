@@ -1,6 +1,6 @@
 package com.example.lifffter.feature_routines.presentation
 
-import com.example.lifffter.feature_routines.domain.model.Routine
+import com.example.lifffter.core.domain.model.Routine
 
 data class RoutineUiState(
     val isLoading: Boolean = false,

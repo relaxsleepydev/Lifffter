@@ -18,5 +18,5 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class RoutineModule {
     @Binds
-    abstract fun ProvideRoutineRepository(impl: RoutineRepositoryImpl): RoutineRepository
+    abstract fun provideRoutineRepository(impl: RoutineRepositoryImpl): RoutineRepository
 }

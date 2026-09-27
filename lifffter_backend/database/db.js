@@ -1,5 +1,6 @@
 import { Pool } from 'pg';
 // curly braces used to get the exact item Pool from pg package and import it
+
 const poolInst = new Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,

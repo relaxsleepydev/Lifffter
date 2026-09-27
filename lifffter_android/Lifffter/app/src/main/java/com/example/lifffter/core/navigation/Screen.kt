@@ -15,4 +15,7 @@ sealed class Screen {
 
     @Serializable
     object RoutineScreen: Screen()
+
+    @Serializable
+    object ExerciseCatalogScreen: Screen()
 }

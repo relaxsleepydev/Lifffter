@@ -3,7 +3,10 @@ import poolInst from "../database/db.js";
 const getAllExercises = async(req, res) => {
     try {
         const result = await poolInst.query('SELECT * FROM exercises');
-        return res.status(200).json(result.rows);
+        return res.status(200).json({
+            success: true,
+            data: result.rows
+        });
     } catch(err) {
         console.error(err);
         return res.status(500).json({ error: "Internal Server Error" });

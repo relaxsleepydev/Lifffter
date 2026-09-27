@@ -5,7 +5,8 @@ import com.example.lifffter.core.network.AuthInterceptor
 import com.example.lifffter.core.security.DataStorePreferences
 import com.example.lifffter.core.security.SecurityUtil
 import com.example.lifffter.feature_auth.data.remote.authapi.AuthAPI
-import com.example.lifffter.feature_routines.data.remote.api.RoutineAPI
+import com.example.lifffter.feature_exercise.data.remote.ExerciseApi
+import com.example.lifffter.feature_routines.data.remote.api.RoutineApi
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -77,13 +78,19 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRoutineApi(retrofit: Retrofit): RoutineAPI {
-        return retrofit.create(RoutineAPI::class.java)
+    fun provideRoutineApi(retrofit: Retrofit): RoutineApi {
+        return retrofit.create(RoutineApi::class.java)
     }
 
     @Provides
     @Singleton
     fun provideAuthApi(retrofit: Retrofit): AuthAPI {
         return retrofit.create(AuthAPI::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideExerciseApi(retrofit: Retrofit): ExerciseApi {
+        return retrofit.create(ExerciseApi::class.java)
     }
 }

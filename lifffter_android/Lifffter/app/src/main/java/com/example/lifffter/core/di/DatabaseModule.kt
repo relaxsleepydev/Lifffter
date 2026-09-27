@@ -3,6 +3,7 @@ package com.example.lifffter.core.di
 import android.content.Context
 import androidx.room.Room
 import com.example.lifffter.core.database.LifffterDatabase
+import com.example.lifffter.feature_exercise.data.local.ExerciseDao
 import com.example.lifffter.feature_routines.data.local.RoutineDAO
 import dagger.Module
 import dagger.Provides
@@ -28,5 +29,11 @@ object DatabaseModule {
     @Singleton
     fun provideDao(database: LifffterDatabase): RoutineDAO {
         return database.RoutineDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideExerciseDao(database: LifffterDatabase): ExerciseDao {
+        return database.ExerciseDao()
     }
 }

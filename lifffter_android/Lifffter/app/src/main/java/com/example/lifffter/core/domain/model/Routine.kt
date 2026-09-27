@@ -1,4 +1,4 @@
-package com.example.lifffter.feature_routines.domain.model
+package com.example.lifffter.core.domain.model
 
 import java.util.UUID
 

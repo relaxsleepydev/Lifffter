@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.lifffter.feature_routines.presentation.HomeScreen
 import com.example.lifffter.feature_auth.presentation.login.LoginScreen
+import com.example.lifffter.feature_exercise.presentation.screens.ExerciseCatalogScreen
 import com.example.lifffter.feature_routines.presentation.routines.RoutineScreen
 import com.example.lifffter.feature_routines.presentation.workout.WorkoutScreen
 
@@ -17,7 +18,7 @@ fun LifffterNavHost() {
         composable<Screen.LoginScreen> {
             LoginScreen(
                 onLoginSuccess = {
-                    navController.navigate(Screen.HomeScreen)
+                    navController.navigate(Screen.ExerciseCatalogScreen)
                 }
             )
         }
@@ -32,6 +33,10 @@ fun LifffterNavHost() {
 
         composable<Screen.WorkoutScreen> {
             WorkoutScreen()
+        }
+
+        composable<Screen.ExerciseCatalogScreen> {
+            ExerciseCatalogScreen()
         }
     }
 }

@@ -3,8 +3,8 @@ package com.example.lifffter.feature_routines.data.repository
 import android.util.Log
 import com.example.lifffter.feature_routines.data.local.RoutineDAO
 import com.example.lifffter.feature_routines.data.local.RoutineEntity
-import com.example.lifffter.feature_routines.data.remote.api.RoutineAPI
-import com.example.lifffter.feature_routines.domain.model.Routine
+import com.example.lifffter.feature_routines.data.remote.api.RoutineApi
+import com.example.lifffter.core.domain.model.Routine
 import com.example.lifffter.feature_routines.domain.repository.RoutineRepository
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +13,7 @@ import java.util.UUID
 
 class RoutineRepositoryImpl @Inject constructor(
     private val dao: RoutineDAO,
-    private val api: RoutineAPI
+    private val api: RoutineApi
 ): RoutineRepository {
     override fun getRoutines(): Flow<List<Routine>> {
         // Flow.map
