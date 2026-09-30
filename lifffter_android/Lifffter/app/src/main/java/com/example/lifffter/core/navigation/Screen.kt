@@ -11,7 +11,7 @@ sealed class Screen {
     object HomeScreen: Screen()
 
     @Serializable
-    object WorkoutScreen: Screen()
+    object WorkoutSessionScreen: Screen()
 
     @Serializable
     object RoutineScreen: Screen()

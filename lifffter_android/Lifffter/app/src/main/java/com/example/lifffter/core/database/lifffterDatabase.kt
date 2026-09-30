@@ -6,12 +6,23 @@ import com.example.lifffter.feature_exercise.data.local.ExerciseDao
 import com.example.lifffter.feature_exercise.data.local.ExerciseEntity
 import com.example.lifffter.feature_routines.data.local.RoutineDAO
 import com.example.lifffter.feature_routines.data.local.RoutineEntity
+import com.example.lifffter.feature_tracking.data.local.SetLogsEntity
+import com.example.lifffter.feature_tracking.data.local.WorkoutSessionDao
+import com.example.lifffter.feature_tracking.data.local.WorkoutSessionEntity
+import com.example.lifffter.feature_tracking.data.local.WorkoutSessionWithSets
 
 @Database(
-    entities = [RoutineEntity::class, ExerciseEntity::class],
-    version = 1
+    entities = [
+        RoutineEntity::class,
+        ExerciseEntity::class,
+        WorkoutSessionEntity::class,
+        SetLogsEntity::class
+    ],
+    version = 2
 )
-abstract class LifffterDatabase: RoomDatabase() {
-    abstract fun RoutineDao(): RoutineDAO
-    abstract fun ExerciseDao(): ExerciseDao
+abstract class LifffterDatabase : RoomDatabase() {
+    abstract fun routineDao(): RoutineDAO
+    abstract fun exerciseDao(): ExerciseDao
+
+    abstract fun activeWorkoutDao(): WorkoutSessionDao
 }

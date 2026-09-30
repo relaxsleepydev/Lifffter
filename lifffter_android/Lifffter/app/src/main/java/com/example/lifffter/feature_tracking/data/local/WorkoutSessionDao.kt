@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.lifffter.feature_tracking.domain.WorkoutSession
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
@@ -25,4 +24,13 @@ interface WorkoutSessionDao {
 
     @Query("UPDATE set_logs SET isDeleted = 1 WHERE id = :id")
     suspend fun deleteSet(id: UUID)
+
+    @Query("UPDATE set_logs SET weight = :weight WHERE id = :id")
+    suspend fun updateSetWeight(id: UUID, weight: Float)
+
+    @Query("UPDATE set_logs SET reps = :reps WHERE id = :id")
+    suspend fun updateSetReps(id: UUID, reps: Int)
+
+    @Query("UPDATE set_logs SET isCompleted = :isCompleted WHERE id = :id")
+    suspend fun toggleSetComplete(id: UUID, isCompleted: Boolean)
 }

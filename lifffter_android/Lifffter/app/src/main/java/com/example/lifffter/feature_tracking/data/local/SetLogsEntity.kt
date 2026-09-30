@@ -5,7 +5,6 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.example.lifffter.feature_exercise.data.local.ExerciseEntity
-import com.example.lifffter.feature_tracking.domain.WorkoutSession
 import java.util.UUID
 
 @Entity(
@@ -41,5 +40,5 @@ data class SetLogsEntity(
     val isDeleted: Boolean = false ,
     val sessionId: UUID,
     val exerciseId: UUID,
-    val createdAt: Long
+    val createdAt: Long,
 )

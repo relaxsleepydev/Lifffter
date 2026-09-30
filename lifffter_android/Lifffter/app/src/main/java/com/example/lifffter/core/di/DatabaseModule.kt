@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.lifffter.core.database.LifffterDatabase
 import com.example.lifffter.feature_exercise.data.local.ExerciseDao
 import com.example.lifffter.feature_routines.data.local.RoutineDAO
+import com.example.lifffter.feature_tracking.data.local.WorkoutSessionDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,12 +29,18 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDao(database: LifffterDatabase): RoutineDAO {
-        return database.RoutineDao()
+        return database.routineDao()
     }
 
     @Provides
     @Singleton
     fun provideExerciseDao(database: LifffterDatabase): ExerciseDao {
-        return database.ExerciseDao()
+        return database.exerciseDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideActiveExerciseDao(database: LifffterDatabase): WorkoutSessionDao {
+        return database.activeWorkoutDao()
     }
 }
