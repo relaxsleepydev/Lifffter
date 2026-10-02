@@ -30,13 +30,19 @@ class ExerciseRepositoryImpl @Inject constructor(
 
     override suspend fun syncExercises() {
         try {
-            val dtoresponse = api.fetchExercises().exercises
-            val result = dtoresponse.map {
+            val dtoresponse = api.fetchExercises()
+            Log.d("NetworkDebug", "A - Retrofit parsed response: success=({response.success}, items={response.exercises?.size}")
+            val remoteExercises = dtoresponse.exercises
+//            Log.d("NetworkDebug", "Fetched ${remoteExercises.size} exercises from the API")
+            val result = remoteExercises.map {
                 it.toEntity()
             }
+            Log.d("NetworkDebug", "B - Mapped ${remoteExercises.size} entities ready for Room")
             dao.replaceExercises(result)
+            Log.d("NetworkDebug", "C - Insertion command completed without crashing")
         } catch(e: Exception) {
             e.printStackTrace()
+            Log.e("NetworkDebug", "Sync crashed: ${e.message}", e)
         }
     }
 }

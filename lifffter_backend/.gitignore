@@ -1,9 +1,0 @@
-# Dependency directories
-node_modules/
-
-# Environment variables
-.env
-
-# API testing files with hardcoded credentials
-*.rest
-*.http

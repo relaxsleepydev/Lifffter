@@ -39,6 +39,6 @@ data class SetLogsEntity(
     val isCompleted: Boolean = false,
     val isDeleted: Boolean = false ,
     val sessionId: UUID,
-    val exerciseId: UUID,
+    val exerciseId: String,
     val createdAt: Long,
 )

@@ -1,5 +1,6 @@
 package com.example.lifffter.feature_exercise.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lifffter.feature_exercise.domain.model.Exercise
@@ -20,9 +21,10 @@ class ExerciseViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repository.getExercises().collect {
+            repository.getExercises().collect { exercises ->
+                Log.d("NetworkDebug", "Room emitted ${exercises.size} exercises to the ViewModel")
                 _exercises.value = _exercises.value.copy(
-                    exercises = it
+                    exercises = exercises
                 )
             }
         }
@@ -37,7 +39,13 @@ class ExerciseViewModel @Inject constructor(
                     _exercises.value = _exercises.value.copy(isLoading = true)
 
                     // fetch data
-                    repository.syncExercises()
+                    try {
+                        Log.d("NetworkDebug", "Starting network fetch...")
+                        repository.syncExercises()
+                        Log.d("NetworkDebug", "Network fetch finished successfully!")
+                    } catch (e: Exception) {
+                        Log.e("NetworkDebug", "Sync failed: ${e.message}", e)
+                    }
 
                     // hide spinner
                     _exercises.value = _exercises.value.copy(isLoading = false)

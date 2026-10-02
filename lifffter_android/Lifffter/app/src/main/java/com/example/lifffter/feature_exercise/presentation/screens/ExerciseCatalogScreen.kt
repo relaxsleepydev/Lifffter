@@ -19,7 +19,8 @@ import com.example.lifffter.feature_exercise.presentation.viewmodel.ExerciseView
 
 @Composable
 fun ExerciseCatalogScreen(
-    viewModel: ExerciseViewModel = hiltViewModel()
+    viewModel: ExerciseViewModel = hiltViewModel(),
+    onExerciseClick: (String) -> Unit
 ) {
     val state by viewModel.exercises.collectAsStateWithLifecycle()
 
@@ -43,7 +44,7 @@ fun ExerciseCatalogScreen(
                     ExerciseCardItem(
                         exerciseName = exercise.name,
                         exerciseMuscle = exercise.primaryMuscle,
-                        onExerciseClick = { viewModel.onEvent(ExerciseEvent.OnExerciseClick(exercise)) }
+                        onExerciseClick = { onExerciseClick(exercise.id) }
                     )
                 }
             }

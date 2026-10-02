@@ -12,7 +12,7 @@ interface ActiveWorkoutRepository {
 
     suspend fun insertSession(session: WorkoutSession)
 
-    suspend fun insertSet(set: WorkoutSet, sessionId: UUID, exerciseId: UUID)
+    suspend fun insertSet(set: WorkoutSet, sessionId: UUID, exerciseId: String)
 
     suspend fun deleteSession(id: UUID)
 
@@ -23,4 +23,8 @@ interface ActiveWorkoutRepository {
     suspend fun updateSetReps(setId: UUID, reps: Int)
 
     suspend fun toggleSetComplete(setId: UUID, isCompleted: Boolean)
+
+    suspend fun finishAndSyncWorkout(sessionId: UUID)
+
+    suspend fun addExerciseToSession(sessionId: UUID, exerciseId: String)
 }

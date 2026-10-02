@@ -13,8 +13,11 @@ interface WorkoutSessionDao {
     @Query("SELECT * FROM workout_session WHERE id = :id")
     fun getWorkoutSession(id: UUID): Flow<WorkoutSessionWithSets?>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertSession(session: WorkoutSessionEntity)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertSessionDummy(session: WorkoutSessionEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSet(set: SetLogsEntity)
@@ -33,4 +36,19 @@ interface WorkoutSessionDao {
 
     @Query("UPDATE set_logs SET isCompleted = :isCompleted WHERE id = :id")
     suspend fun toggleSetComplete(id: UUID, isCompleted: Boolean)
+
+    @Query("""
+    SELECT s.id as setId, s.weight, s.reps, s.rir, s.isCompleted, s.sessionId, s.exerciseId,
+           e.name as exerciseName 
+    FROM set_logs s
+    LEFT JOIN exercise_catalog e ON s.exerciseId = e.id
+    WHERE s.sessionId = :sessionId AND s.isDeleted = 0
+""")
+    fun getSetsWithExerciseForSession(sessionId: UUID): Flow<List<SetWithExerciseFlat>>
+
+    @Query("SELECT * FROM workout_session WHERE id = :sessionId")
+    suspend fun getSessionEntity(sessionId: UUID): WorkoutSessionEntity?
+    // Or as a Flow if the session itself changes, but a simple suspend or Flow works:
+    @Query("SELECT * FROM workout_session WHERE id = :sessionId")
+    fun getSessionEntityFlow(sessionId: UUID): Flow<WorkoutSessionEntity?>
 }

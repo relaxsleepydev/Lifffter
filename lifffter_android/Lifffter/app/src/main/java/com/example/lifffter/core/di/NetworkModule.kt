@@ -7,6 +7,7 @@ import com.example.lifffter.core.security.SecurityUtil
 import com.example.lifffter.feature_auth.data.remote.authapi.AuthAPI
 import com.example.lifffter.feature_exercise.data.remote.ExerciseApi
 import com.example.lifffter.feature_routines.data.remote.api.RoutineApi
+import com.example.lifffter.feature_tracking.data.remote.api.WorkoutApi
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -70,7 +71,7 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit
             .Builder()
-            .baseUrl("http://10.0.2.2:3000/") // ip should be valid, check that before finalizing
+            .baseUrl("http://192.168.1.8:3000/") // ip should be valid, check that before finalizing
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -92,5 +93,11 @@ object NetworkModule {
     @Singleton
     fun provideExerciseApi(retrofit: Retrofit): ExerciseApi {
         return retrofit.create(ExerciseApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWorkoutApi(retrofit: Retrofit): WorkoutApi {
+        return retrofit.create(WorkoutApi::class.java)
     }
 }

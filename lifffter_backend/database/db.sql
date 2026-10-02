@@ -29,6 +29,13 @@ CREATE TABLE exercises (
     primary_muscle VARCHAR(100) NOT NULL
 );
 
+INSERT INTO exercises (id, name, primary_muscle) 
+VALUES 
+    (gen_random_uuid(), 'Bench Press', 'Chest'),
+    (gen_random_uuid(), 'Squat', 'Legs'),
+    (gen_random_uuid(), 'Pull Up', 'Back');
+
+
 CREATE TABLE routine_exercises (
     exercise_id UUID NOT NULL,
     routine_id UUID NOT NULL,

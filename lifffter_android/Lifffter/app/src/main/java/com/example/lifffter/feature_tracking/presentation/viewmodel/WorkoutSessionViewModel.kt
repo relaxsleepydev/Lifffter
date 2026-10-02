@@ -6,8 +6,10 @@ import com.example.lifffter.feature_tracking.domain.models.WorkoutSession
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSet
 import com.example.lifffter.feature_tracking.domain.repository.ActiveWorkoutRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -22,11 +24,26 @@ class WorkoutSessionViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repository.getActiveSession(activeSessionId).collect {
-                _state.value = _state.value.copy(workoutSession = it)
+            val newSession = WorkoutSession(
+                id = activeSessionId,
+                routineId = null,
+                startTime = System.currentTimeMillis(),
+                endTime = null
+            )
+            // With OnConflictStrategy.IGNORE in the DAO, this is now safe:
+            repository.insertSession(newSession)
+
+            // Collect your live flow
+            repository.getActiveSession(activeSessionId).collect { session ->
+                _state.value = _state.value.copy(
+                    workoutSession = session
+                )
             }
         }
     }
+
+    private val _uiEvent = Channel<UiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
 
     fun onEvent(event: WorkoutSessionEvent) {
         when(event) {
@@ -58,7 +75,8 @@ class WorkoutSessionViewModel @Inject constructor(
             }
             is WorkoutSessionEvent.FinishWorkout -> {
                 viewModelScope.launch {
-                    repository.deleteSession(activeSessionId)
+                    repository.finishAndSyncWorkout(activeSessionId)
+                    _uiEvent.send(UiEvent.NavigateBack)
                 }
             }
             is WorkoutSessionEvent.ToggleSetComplete -> {
@@ -72,6 +90,16 @@ class WorkoutSessionViewModel @Inject constructor(
                     repository.updateSetReps(event.setId, event.reps)
                 }
             }
+
+            is WorkoutSessionEvent.AddExercise -> {
+                viewModelScope.launch {
+                    repository.addExerciseToSession(activeSessionId, event.exerciseId)
+                }
+            }
         }
     }
+}
+
+sealed class UiEvent {
+    object NavigateBack: UiEvent()
 }

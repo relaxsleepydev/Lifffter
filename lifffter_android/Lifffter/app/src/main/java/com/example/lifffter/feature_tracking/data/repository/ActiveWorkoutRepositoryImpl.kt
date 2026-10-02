@@ -1,23 +1,44 @@
 package com.example.lifffter.feature_tracking.data.repository
 
+import android.util.Log
 import com.example.lifffter.feature_tracking.data.local.SetLogsEntity
 import com.example.lifffter.feature_tracking.data.local.WorkoutSessionDao
 import com.example.lifffter.feature_tracking.data.local.WorkoutSessionEntity
 import com.example.lifffter.feature_tracking.data.mapper.toDomain
+import com.example.lifffter.feature_tracking.data.mapper.toDomainWorkout
+import com.example.lifffter.feature_tracking.data.mapper.toDto
+import com.example.lifffter.feature_tracking.data.mapper.toSetDtoList
+import com.example.lifffter.feature_tracking.data.remote.api.WorkoutApi
+import com.example.lifffter.feature_tracking.data.remote.api.WorkoutApiResponse
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSession
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSet
 import com.example.lifffter.feature_tracking.domain.repository.ActiveWorkoutRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.util.UUID
 import javax.inject.Inject
 
 class ActiveWorkoutRepositoryImpl @Inject constructor(
-    private val dao: WorkoutSessionDao
+    private val dao: WorkoutSessionDao,
+    private val api: WorkoutApi
 ) : ActiveWorkoutRepository {
     override fun getActiveSession(sessionId: UUID): Flow<WorkoutSession?> {
-        return dao.getWorkoutSession(sessionId).map {
-            it?.toDomain()
+        // 1. Get the session entity flow
+        val sessionFlow = dao.getSessionEntityFlow(sessionId)
+
+        // 2. Get the flat sets with exercise names flow
+        val setsFlow = dao.getSetsWithExerciseForSession(sessionId)
+
+        // 3. Combine both streams into one emission
+        return combine(sessionFlow, setsFlow) { sessionEntity, flatSets ->
+            if (sessionEntity == null) {
+                null
+            } else {
+                // Use our new flat mapper function here!
+                flatSets.toDomainWorkout(sessionEntity)
+            }
         }
     }
 
@@ -32,7 +53,7 @@ class ActiveWorkoutRepositoryImpl @Inject constructor(
         dao.insertSession(entity)
     }
 
-    override suspend fun insertSet(set: WorkoutSet, sessionId: UUID, exerciseId: UUID) {
+    override suspend fun insertSet(set: WorkoutSet, sessionId: UUID, exerciseId: String) {
         val entity = SetLogsEntity(
             id = set.id,
             weight = set.weight,
@@ -44,6 +65,70 @@ class ActiveWorkoutRepositoryImpl @Inject constructor(
             createdAt = System.currentTimeMillis()
         )
         dao.insertSet(entity)
+    }
+
+    val id = UUID.randomUUID()
+
+    override suspend fun addExerciseToSession(sessionId: UUID, exerciseId: String) {
+        try {
+            val dummySession = WorkoutSessionEntity(
+                id = sessionId,
+                routineId = null, // (Or whatever you set this to)
+                startTime = System.currentTimeMillis(),
+                endTime = null,
+                isDeleted = false
+            )
+            dao.insertSessionDummy(dummySession)
+            Log.d("RoomDebug", "Session inserted successfully!")
+        } catch (e: Exception) {
+            Log.e("RoomDebug", "SESSION FAILED: ${e.message}")
+        }
+
+        try {
+            val blankSet = SetLogsEntity(
+                id = UUID.randomUUID(),
+                weight = 0f,
+                reps = 0,
+                rir = 0,
+                isCompleted = false,
+                sessionId = sessionId,
+                exerciseId = exerciseId,
+                createdAt = System.currentTimeMillis()
+            )
+            Log.d("RoomDebug", "Trying to insert set for Session: sessionId and Exercise: exerciseId")
+            dao.insertSet(blankSet)
+            Log.d("RoomDebug", "✅ Set inserted successfully!")
+        } catch (e: Exception) {
+            Log.e("RoomDebug", "❌ SET FAILED: ${e.message}")
+        }
+    }
+
+    override suspend fun finishAndSyncWorkout(sessionId: UUID) {
+        try {
+            // 1. Fetch the session entity and the flat sets directly using our new DAO methods
+            val sessionEntity = dao.getSessionEntity(sessionId) ?: return
+            val flatSets = dao.getSetsWithExerciseForSession(sessionId).first() // Get the current snapshot
+
+            // 2. Map them to your domain WorkoutSession using our flat mapper
+            val domainSession = flatSets.toDomainWorkout(sessionEntity)
+
+            // 3. Convert to DTOs
+            val workoutDto = domainSession.toDto()
+            val setDto = domainSession.toSetDtoList()
+
+            // 4. Push to server
+            val sessionResponse = api.pushSession(workoutDto)
+            val setResponse = api.pushSet(setDto)
+
+            if (sessionResponse.isSuccessful && setResponse.isSuccessful) {
+                // Optional: If you want to mark them completed or deleted locally upon success
+                // dao.deleteSession(sessionId)
+            } else {
+                Log.e("Sync Error", "Server Rejected: ${sessionResponse.code()}")
+            }
+        } catch (e: Exception) {
+            Log.e("Sync Error", "Network Failed", e)
+        }
     }
 
     override suspend fun deleteSession(id: UUID) {

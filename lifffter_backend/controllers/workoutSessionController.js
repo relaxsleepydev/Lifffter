@@ -4,7 +4,10 @@ const startSession = async(req, res) => {
     try {
         const { routine_id } = req.body;
         const user_id = req.user.id;
-        const result = await poolInst.query('INSERT INTO workout_sessions (user_id, routine_id) VALUES ($1, $2) RETURNING id, start_time', [user_id, routine_id]);
+        const result = await poolInst.query(
+            'INSERT INTO workout_sessions (user_id, routine_id) VALUES ($1, $2) RETURNING id, start_time',
+            [user_id, routine_id]
+        );
         if(result.rows.length === 0) {
             return res.status(400).json({
                 success: false,
