@@ -11,15 +11,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.lifffter.core.ui.theme.LocalSpacing
-import com.example.lifffter.feature_tracking.domain.models.ActiveExercise
 import com.example.lifffter.feature_tracking.presentation.viewmodel.UiEvent
 import com.example.lifffter.feature_tracking.presentation.viewmodel.WorkoutSessionEvent
 import com.example.lifffter.feature_tracking.presentation.viewmodel.WorkoutSessionUiState
 import com.example.lifffter.feature_tracking.presentation.viewmodel.WorkoutSessionViewModel
-import java.util.UUID
 
 @Composable
 fun WorkoutSessionScreen(
@@ -44,7 +41,7 @@ fun WorkoutSessionScreen(
                 onFinishClick = {
                     onEvent(WorkoutSessionEvent.FinishWorkout)
                 },
-                onBackClick = { }
+                onBackClick = onNavigateBack
             )
         }
     ) { innerPadding ->
@@ -73,7 +70,6 @@ fun WorkoutSessionScreen(
                 Button(
                     onClick = {
                         onNavigateToCatalog()
-//                        onEvent(WorkoutSessionEvent.AddExercise(UUID.randomUUID()))
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -87,4 +83,3 @@ fun WorkoutSessionScreen(
         }
     }
 }
-// now list all the things we did from the starting of my idea of adding exercise from catalog in workoutscreen till now

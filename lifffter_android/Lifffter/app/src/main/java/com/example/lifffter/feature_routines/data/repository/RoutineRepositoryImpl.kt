@@ -5,6 +5,9 @@ import com.example.lifffter.feature_routines.data.local.RoutineDAO
 import com.example.lifffter.feature_routines.data.local.RoutineEntity
 import com.example.lifffter.feature_routines.data.remote.api.RoutineApi
 import com.example.lifffter.core.domain.model.Routine
+import com.example.lifffter.feature_exercise.data.local.ExerciseEntity
+import com.example.lifffter.feature_routines.data.local.RoutineExerciseCrossRef
+import com.example.lifffter.feature_routines.domain.model.RoutineWithExercises
 import com.example.lifffter.feature_routines.domain.repository.RoutineRepository
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -57,5 +60,18 @@ class RoutineRepositoryImpl @Inject constructor(
             routine.name,
             routine.targetMuscleGroup
         ))
+    }
+
+    override fun getRoutineWithExercises(): Flow<List<RoutineWithExercises>> {
+        return dao.getRoutineWithExercises()
+    }
+
+    override suspend fun insertRoutineWithExercises(
+        routine: RoutineEntity,
+        exercises: List<ExerciseEntity>
+    ) {
+        dao.insertRoutinesWithExercises(routine, exercises.map { exercise ->
+            RoutineExerciseCrossRef(routine.id, exercise.id)
+        })
     }
 }

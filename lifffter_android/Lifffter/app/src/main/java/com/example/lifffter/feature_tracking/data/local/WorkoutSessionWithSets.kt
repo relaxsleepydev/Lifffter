@@ -7,8 +7,8 @@ import java.util.UUID
 data class WorkoutSessionWithSets(
     @Embedded val workoutSession: WorkoutSessionEntity,
     @Relation(
-        parentColumn = "id",
-        entityColumn = "sessionId"
+        parentColumn = "id", // id in workoutSessionEntity
+        entityColumn = "sessionId" // sessionId in SetLogsEntity
     ) val sets: List<SetLogsEntity>
 )
 
@@ -20,5 +20,5 @@ data class SetWithExerciseFlat(
     val isCompleted: Boolean,
     val sessionId: UUID,
     val exerciseId: String,
-    val exerciseName: String? // Pulled from the catalog table
+    val exerciseName: String // Pulled from the catalog table
 )

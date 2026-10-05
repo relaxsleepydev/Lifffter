@@ -6,7 +6,10 @@ import com.example.lifffter.feature_tracking.domain.models.WorkoutSession
 
 fun WorkoutSession.toDto(): WorkoutSessionDto {
     return WorkoutSessionDto(
-        routineId = routineId!!
+        id = this.id,
+        routineId = this.routineId,
+        startTime = this.startTime,
+        endTime = this.endTime
     )
 }
 

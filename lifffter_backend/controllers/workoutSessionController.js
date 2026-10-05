@@ -2,12 +2,18 @@ import poolInst from '../database/db.js';
 
 const startSession = async(req, res) => {
     try {
-        const { routine_id } = req.body;
+        console.log("FULL SESSION PAYLOAD FROM ANDROID:", req.body);
+        const { id, routine_id, start_time, end_time } = req.body;
         const user_id = req.user.id;
+
+        const startDate = new Date(start_time);
+        const endDate = end_time ? new Date(end_time) : null;
+
         const result = await poolInst.query(
-            'INSERT INTO workout_sessions (user_id, routine_id) VALUES ($1, $2) RETURNING id, start_time',
-            [user_id, routine_id]
+            'INSERT INTO workout_sessions (id, user_id, routine_id, start_time, end_time) VALUES ($1, $2, $3, $4, $5) RETURNING id, start_time',
+            [id, user_id, routine_id, startDate, endDate]
         );
+        console.log("2. SESSION SAVED IN POSTGRES WITH ID:", result.rows[0].id);
         if(result.rows.length === 0) {
             return res.status(400).json({
                 success: false,

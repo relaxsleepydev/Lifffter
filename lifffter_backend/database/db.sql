@@ -84,7 +84,7 @@ CREATE TABLE workout_sessions (
 CREATE TABLE set_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     -- routine_exercises_id UUID NOT NULL, not needed
-    session_id UUID NOT NULL,
+    session_id UUID,
     exercise_id UUID NOT NULL,
     set_number INT NOT NULL,
     weight DECIMAL NOT NULL,
@@ -108,3 +108,6 @@ CREATE TABLE set_logs (
 INSERT INTO exercises (name, primary_muscle) VALUES ('Pendlay Row', 'Back');
 INSERT INTO exercises (name, primary_muscle) VALUES ('Smith Incline Bench', 'Chest');
 INSERT INTO exercises (name, primary_muscle) VALUES ('EZ Barbell Curl', 'Bicep');
+
+SELECT * FROM set_logs;
+SELECT * FROM workout_sessions;

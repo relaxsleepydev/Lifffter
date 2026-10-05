@@ -21,7 +21,7 @@ import java.util.UUID
             entity = ExerciseEntity::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("exerciseId"),
-            onDelete = ForeignKey.CASCADE,
+            onDelete = ForeignKey.NO_ACTION,
             onUpdate = ForeignKey.CASCADE
         )
     ],
@@ -32,7 +32,7 @@ import java.util.UUID
 )
 data class SetLogsEntity(
     @PrimaryKey
-    val id: UUID,
+    val id: UUID = UUID.randomUUID(),
     val weight: Float = 0f,
     val reps: Int = 0,
     val rir: Int = 0,

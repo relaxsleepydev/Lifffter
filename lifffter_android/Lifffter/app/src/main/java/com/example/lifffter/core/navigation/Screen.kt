@@ -18,4 +18,6 @@ sealed class Screen {
 
     @Serializable
     object ExerciseCatalogScreen: Screen()
+    @Serializable
+    object DashboardScreen: Screen()
 }

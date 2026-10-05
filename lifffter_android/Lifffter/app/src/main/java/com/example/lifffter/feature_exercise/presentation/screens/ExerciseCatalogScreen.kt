@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.lifffter.core.ui.designs.TopBar
-import com.example.lifffter.feature_exercise.presentation.viewmodel.ExerciseEvent
 import com.example.lifffter.feature_exercise.presentation.viewmodel.ExerciseViewModel
 
 @Composable

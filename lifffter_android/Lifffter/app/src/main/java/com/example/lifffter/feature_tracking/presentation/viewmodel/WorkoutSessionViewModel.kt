@@ -1,5 +1,6 @@
 package com.example.lifffter.feature_tracking.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSession
@@ -20,9 +21,10 @@ class WorkoutSessionViewModel @Inject constructor(
 ): ViewModel() {
     private val _state = MutableStateFlow(WorkoutSessionUiState())
     val state = _state.asStateFlow()
-    val activeSessionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000")
+    val activeSessionId = UUID.randomUUID()
 
     init {
+        Log.d("LIFECYCLE_TEST", "ViewModel Created! Session ID: $activeSessionId")
         viewModelScope.launch {
             val newSession = WorkoutSession(
                 id = activeSessionId,

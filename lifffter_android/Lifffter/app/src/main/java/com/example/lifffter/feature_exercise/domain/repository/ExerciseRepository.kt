@@ -9,5 +9,7 @@ interface ExerciseRepository {
 
     fun getExercises(): Flow<List<Exercise>>
 
+    fun getExerciseById(id: String): ExerciseEntity?
+
     suspend fun syncExercises()
 }

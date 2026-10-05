@@ -1,4 +1,4 @@
-package com.example.lifffter.feature_routines.presentation
+package com.example.lifffter.feature_routines.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

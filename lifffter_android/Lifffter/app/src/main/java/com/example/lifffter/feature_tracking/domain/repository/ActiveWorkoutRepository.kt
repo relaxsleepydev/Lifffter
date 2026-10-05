@@ -1,7 +1,9 @@
 package com.example.lifffter.feature_tracking.domain.repository
 
 import com.example.lifffter.feature_tracking.data.local.SetLogsEntity
+import com.example.lifffter.feature_tracking.data.local.SetWithExerciseFlat
 import com.example.lifffter.feature_tracking.data.local.WorkoutSessionEntity
+import com.example.lifffter.feature_tracking.data.local.WorkoutSessionWithSets
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSession
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSet
 import kotlinx.coroutines.flow.Flow
@@ -27,4 +29,6 @@ interface ActiveWorkoutRepository {
     suspend fun finishAndSyncWorkout(sessionId: UUID)
 
     suspend fun addExerciseToSession(sessionId: UUID, exerciseId: String)
+
+    fun getWorkoutHistory(): Flow<Map<WorkoutSessionEntity, List<SetWithExerciseFlat>>>
 }

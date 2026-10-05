@@ -62,7 +62,7 @@ fun SetRow(
         OutlinedTextField(
             value = set.reps.toString(),
             onValueChange = { newText ->
-                val parsedReps = if(newText.isNotBlank()) 0 else newText.toIntOrNull() ?: 0
+                val parsedReps = if(newText.isBlank()) 0 else newText.toInt()
                 onEvent(
                     WorkoutSessionEvent.UpdateSetReps(set.id, reps = parsedReps)
                 )

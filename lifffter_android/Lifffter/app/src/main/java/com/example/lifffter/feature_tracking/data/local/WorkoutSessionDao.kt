@@ -4,6 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
@@ -19,7 +21,7 @@ interface WorkoutSessionDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertSessionDummy(session: WorkoutSessionEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertSet(set: SetLogsEntity)
 
     @Query("UPDATE workout_session SET isDeleted = 1 WHERE id = :id")
@@ -51,4 +53,19 @@ interface WorkoutSessionDao {
     // Or as a Flow if the session itself changes, but a simple suspend or Flow works:
     @Query("SELECT * FROM workout_session WHERE id = :sessionId")
     fun getSessionEntityFlow(sessionId: UUID): Flow<WorkoutSessionEntity?>
+
+    @Query("""
+    SELECT session.*, 
+           s.id as setId, s.weight, s.reps, s.rir, s.isCompleted, s.sessionId, s.exerciseId,
+           e.name as exerciseName 
+    FROM workout_session AS session
+    LEFT JOIN set_logs AS s ON session.id = s.sessionId
+    LEFT JOIN exercise_catalog AS e ON s.exerciseId = e.id
+    WHERE session.endTime IS NOT NULL AND session.isDeleted = 0
+    ORDER BY session.endTime DESC
+""")
+    fun getWorkoutHistory(): Flow<Map<WorkoutSessionEntity, List<SetWithExerciseFlat>>>
+
+    @Query("UPDATE workout_session SET endTime = :endTime WHERE id = :id")
+    suspend fun updateSessionEndTime(id: UUID, endTime: Long)
 }

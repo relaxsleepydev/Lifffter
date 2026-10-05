@@ -2,14 +2,20 @@ import poolInst from '../database/db.js';
 
 const logSet = async(req, res) => {
     try {
-        const { session_id, exercise_id, set_number, weight, reps, rir } = req.body;
-        const result = await poolInst.query('INSERT INTO set_logs (session_id, exercise_id, set_number, weight, reps, rir) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id', [session_id, exercise_id, set_number, weight, reps, rir]);
-        if(result.rows.length === 0) {
+        // const { session_id, exercise_id, set_number, weight, reps, rir } = req.body;
+        const setArray = req.body;
+        for(const set of setArray)
+        {
+            const { session_id, exercise_id, set_number, weight, reps, rir } = set;
+            console.log("3. SET ARRIVED! LOOKING FOR SESSION ID:", session_id);
+            const result = await poolInst.query('INSERT INTO set_logs (session_id, exercise_id, set_number, weight, reps, rir) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id', [session_id, exercise_id, set_number, weight, reps, rir]);
+            if(result.rows.length === 0) {
             return res.status(400).json({ 
-                success: false,
-                message: "Failed to log set",
-                error: "Database insertion didnt returned record. Please try again!"
-            });
+                    success: false,
+                    message: "Failed to log set",
+                    error: "Database insertion didnt returned record. Please try again!"
+                });
+            }
         }
         return res.status(201).json({
             success: true,

@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.lifffter.feature_routines.presentation.RoutineEvent
-import com.example.lifffter.feature_routines.presentation.RoutineViewModel
+import com.example.lifffter.feature_routines.presentation.viewmodel.RoutineEvent
+import com.example.lifffter.feature_routines.presentation.viewmodel.RoutineViewModel
 
 @Composable
 fun RoutineScreen(viewModel: RoutineViewModel = hiltViewModel()) {
