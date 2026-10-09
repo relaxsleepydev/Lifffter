@@ -71,7 +71,7 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit
             .Builder()
-            .baseUrl("http://192.168.1.8:3000/") // ip should be valid, check that before finalizing
+            .baseUrl("http://192.168.1.9:3000/") // ip should be valid, check that before finalizing
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

@@ -60,7 +60,7 @@ fun BottomAppBar(
         )
 
         NavigationBarItem(
-            onClick = { navController.navigate(Screen.WorkoutSessionScreen) },
+            onClick = { navController.navigate(Screen.WorkoutSessionScreen()) },
             selected = true,
             icon = {
                 Icon(

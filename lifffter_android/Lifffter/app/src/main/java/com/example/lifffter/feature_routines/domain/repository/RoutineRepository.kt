@@ -17,4 +17,6 @@ interface RoutineRepository {
     fun getRoutineWithExercises(): Flow<List<RoutineWithExercises>>
 
     suspend fun insertRoutineWithExercises(routine: RoutineEntity, exercises: List<ExerciseEntity>)
+
+    suspend fun getRoutineWithExerciseById(routineId: String): RoutineWithExercises?
 }

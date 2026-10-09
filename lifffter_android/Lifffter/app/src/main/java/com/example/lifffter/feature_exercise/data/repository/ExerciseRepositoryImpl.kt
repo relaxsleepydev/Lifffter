@@ -46,7 +46,7 @@ class ExerciseRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getExerciseById(id: String): ExerciseEntity? {
+    override suspend fun getExerciseById(id: String): ExerciseEntity? {
         return dao.getExerciseById(id)
     }
 }

@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import okio.IOException
 import android.util.Base64
+import androidx.datastore.preferences.core.stringPreferencesKey
 
 private val Context.dataStore by preferencesDataStore(
     name = "app_user_preferences"
@@ -83,6 +84,10 @@ class DataStorePreferences(
         dataStore.edit {
             it.remove(key)
         }
+    }
+
+    suspend fun clearToken() {
+        removePreference(stringPreferencesKey("token"))
     }
 
     suspend fun clearAllPreference() {

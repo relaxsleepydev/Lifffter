@@ -22,7 +22,7 @@ class ExerciseViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             repository.getExercises().collect { exercises ->
-                Log.d("NetworkDebug", "Room emitted ${exercises.size} exercises to the ViewModel")
+//                Log.d("NetworkDebug", "Room emitted ${exercises.size} exercises to the ViewModel")
                 _exercises.value = _exercises.value.copy(
                     exercises = exercises
                 )
@@ -40,11 +40,11 @@ class ExerciseViewModel @Inject constructor(
 
                     // fetch data
                     try {
-                        Log.d("NetworkDebug", "Starting network fetch...")
+//                        Log.d("NetworkDebug", "Starting network fetch...")
                         repository.syncExercises()
-                        Log.d("NetworkDebug", "Network fetch finished successfully!")
+//                        Log.d("NetworkDebug", "Network fetch finished successfully!")
                     } catch (e: Exception) {
-                        Log.e("NetworkDebug", "Sync failed: ${e.message}", e)
+//                        Log.e("NetworkDebug", "Sync failed: ${e.message}", e)
                     }
 
                     // hide spinner

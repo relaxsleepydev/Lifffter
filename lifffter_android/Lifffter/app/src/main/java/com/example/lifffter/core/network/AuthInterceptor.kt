@@ -35,7 +35,16 @@ class AuthInterceptor @Inject constructor(
                     .newBuilder()
                     .addHeader("Authorization", "Bearer ${token}")
                     .build()
-                return chain.proceed(newRequest)
+
+                val response = chain.proceed(newRequest)
+                if(response.code == 401) {
+                    runBlocking {
+                        dataStorePreferences.removePreference(stringPreferencesKey("token"))
+                    }
+                }
+
+                return response
+//                return chain.proceed(newRequest)
             }
         }
         return chain.proceed(request)

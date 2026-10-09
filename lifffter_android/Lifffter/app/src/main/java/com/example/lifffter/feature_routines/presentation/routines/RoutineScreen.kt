@@ -20,7 +20,10 @@ import com.example.lifffter.feature_routines.presentation.viewmodel.RoutineEvent
 import com.example.lifffter.feature_routines.presentation.viewmodel.RoutineViewModel
 
 @Composable
-fun RoutineScreen(viewModel: RoutineViewModel = hiltViewModel()) {
+fun RoutineScreen(
+    onNavigateCreateRoutine: () -> Unit,
+    viewModel: RoutineViewModel = hiltViewModel()
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     Scaffold() { innerPadding ->
         Box(
@@ -61,9 +64,9 @@ fun RoutineScreen(viewModel: RoutineViewModel = hiltViewModel()) {
             contentAlignment = Alignment.Center
         ) {
             FloatingActionButton(
-                onClick = { viewModel.onEvent(RoutineEvent.AddDummyRoutine) }
+                onClick = onNavigateCreateRoutine
             ) {
-                Text(text = "Add Dummy Routine")
+                Text(text = "Add Routine")
             }
         }
     }

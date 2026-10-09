@@ -111,3 +111,4 @@ INSERT INTO exercises (name, primary_muscle) VALUES ('EZ Barbell Curl', 'Bicep')
 
 SELECT * FROM set_logs;
 SELECT * FROM workout_sessions;
+SELECT * FROM exercises;

@@ -32,4 +32,8 @@ interface RoutineDAO {
         insertRoutine(routine)
         insertRoutineCrossRef(routineCrossRef)
     }
+
+    @Transaction
+    @Query("SELECT * FROM routine_table WHERE id = :routineId")
+    suspend fun getRoutineWithExerciseById(routineId: String): RoutineWithExercises?
 }

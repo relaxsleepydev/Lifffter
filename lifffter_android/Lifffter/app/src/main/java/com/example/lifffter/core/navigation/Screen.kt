@@ -11,10 +11,13 @@ sealed class Screen {
     object HomeScreen: Screen()
 
     @Serializable
-    object WorkoutSessionScreen: Screen()
+    data class WorkoutSessionScreen(val routineId: String? = null): Screen()
 
     @Serializable
     object RoutineScreen: Screen()
+
+    @Serializable
+    data object CreateRoutineScreen: Screen()
 
     @Serializable
     object ExerciseCatalogScreen: Screen()

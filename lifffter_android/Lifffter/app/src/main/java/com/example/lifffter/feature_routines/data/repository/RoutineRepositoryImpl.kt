@@ -74,4 +74,8 @@ class RoutineRepositoryImpl @Inject constructor(
             RoutineExerciseCrossRef(routine.id, exercise.id)
         })
     }
+
+    override suspend fun getRoutineWithExerciseById(routineId: String): RoutineWithExercises? {
+        return dao.getRoutineWithExerciseById(routineId)
+    }
 }
