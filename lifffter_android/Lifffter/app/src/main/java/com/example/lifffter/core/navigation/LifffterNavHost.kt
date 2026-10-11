@@ -19,7 +19,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.lifffter.MainViewModel
-import com.example.lifffter.feature_routines.presentation.HomeScreen
 import com.example.lifffter.feature_auth.presentation.login.LoginScreen
 import com.example.lifffter.feature_exercise.presentation.screens.ExerciseCatalogScreen
 import com.example.lifffter.feature_routines.presentation.routines.RoutineScreen
@@ -32,6 +31,8 @@ import com.example.lifffter.feature_auth.presentation.MainState
 import com.example.lifffter.feature_dashboard.presentation.screens.DashboardScreen
 import com.example.lifffter.feature_dashboard.presentation.viewmodel.DashboardViewModel
 import com.example.lifffter.feature_exercise.presentation.viewmodel.ExerciseViewModel
+import com.example.lifffter.feature_profile.presentation.screens.ProfileScreen
+import com.example.lifffter.feature_profile.presentation.viewmodel.ProfileViewModel
 import com.example.lifffter.feature_routines.presentation.routines.CreateRoutineScreen
 import com.example.lifffter.feature_routines.presentation.viewmodel.CreateRoutineEvent
 import com.example.lifffter.feature_routines.presentation.viewmodel.CreateRoutineViewModel
@@ -52,6 +53,18 @@ fun LifffterNavHost() {
         is MainState.UnAuthenticated -> Screen.LoginScreen
     }
 
+    LaunchedEffect(state) {
+        if (state is MainState.UnAuthenticated) {
+            navController.navigate(Screen.LoginScreen) {
+                // popUpTo(0) is the magic command that destroys the entire backstack history
+                popUpTo(0) {
+                    inclusive = true
+                }
+                launchSingleTop = true
+            }
+        }
+    }
+
     if(startDestination == null)
     {
         Box(
@@ -67,9 +80,10 @@ fun LifffterNavHost() {
             topBar = { },
             bottomBar = {
                 if (
-                    currentState?.destination?.hasRoute<Screen.HomeScreen>() == true ||
+                    currentState?.destination?.hasRoute<DashboardScreen>() == true ||
                     currentState?.destination?.hasRoute<Screen.RoutineScreen>() == true ||
-                    currentState?.destination?.hasRoute<DashboardScreen>() == true
+                    currentState?.destination?.hasRoute<DashboardScreen>() == true ||
+                    currentState?.destination?.hasRoute<Screen.ProfileScreen>() == true
                 ) {
                     BottomAppBar(
                         navController = navController
@@ -96,9 +110,9 @@ fun LifffterNavHost() {
                     )
                 }
 
-                composable<Screen.HomeScreen> {
-                    HomeScreen()
-                }
+//                composable<Screen.HomeScreen> {
+//                    HomeScreen()
+//                }
 
                 composable<Screen.RoutineScreen> {
                     val viewModel = hiltViewModel<RoutineViewModel>()
@@ -112,6 +126,9 @@ fun LifffterNavHost() {
                                 launchSingleTop = true
                                 restoreState = true
                             }
+                        },
+                        onRoutineClick = { id ->
+                            navController.navigate(Screen.WorkoutSessionScreen(routineId = id))
                         }
                     )
                 }
@@ -183,6 +200,14 @@ fun LifffterNavHost() {
                     CreateRoutineScreen(
                         onNavigateBack = { navController.popBackStack() },
                         onNavigateCatalog = { navController.navigate(Screen.ExerciseCatalogScreen) }
+                    )
+                }
+
+                composable<Screen.ProfileScreen> {
+                    val viewModel = hiltViewModel<ProfileViewModel>()
+                    ProfileScreen(
+                        viewModel = viewModel,
+                        onNavigateBack = navController::popBackStack
                     )
                 }
             }

@@ -8,6 +8,7 @@ import com.example.lifffter.feature_tracking.domain.models.ActiveExercise
 import com.example.lifffter.feature_tracking.domain.models.WorkoutHistoryItem
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSession
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSet
+import java.util.UUID
 import kotlin.collections.map
 import kotlin.math.exp
 
@@ -51,6 +52,31 @@ fun SetLogsEntity.toDomain(): WorkoutSet {
     )
 }
 
+fun WorkoutSession.toEntity(): WorkoutSessionEntity {
+    return WorkoutSessionEntity(
+        id = this.id,
+        title = this.title,
+        routineId = this.routineId,
+        startTime = this.startTime,
+        endTime = this.endTime,
+        isDeleted = false
+    )
+}
+
+fun WorkoutSet.toEntity(sessionId: UUID, exerciseId: String): SetLogsEntity {
+    return SetLogsEntity(
+        id = this.id,
+        weight = this.weight,
+        reps = this.reps,
+        rir = this.rir,
+        isCompleted = this.isCompleted,
+        isDeleted = false,
+        sessionId = sessionId,
+        exerciseId = exerciseId,
+        createdAt = System.currentTimeMillis()
+    )
+}
+
 fun Map.Entry<WorkoutSessionEntity, List<SetWithExerciseFlat>>.toDomain(): WorkoutHistoryItem {
     val session = this.key
     val sets = this.value
@@ -76,6 +102,6 @@ fun Map.Entry<WorkoutSessionEntity, List<SetWithExerciseFlat>>.toDomain(): Worko
         exerciseName = uniqueExerciseNames,
         totalReps = totalReps,
         totalVolume = totalVolume,
-        workoutTitle = uniqueExerciseNames.firstOrNull() ?: "Completed Workout"
+        workoutTitle = session.title
     )
 }

@@ -12,4 +12,6 @@ sealed class WorkoutSessionEvent {
     data class ToggleSetComplete(val setId: UUID, val isCompleted: Boolean): WorkoutSessionEvent()
     data class AddExercise(val exerciseId: String): WorkoutSessionEvent()
     data object FinishWorkout: WorkoutSessionEvent()
+
+    data class UpdateSessionTitle(val title: String): WorkoutSessionEvent()
 }

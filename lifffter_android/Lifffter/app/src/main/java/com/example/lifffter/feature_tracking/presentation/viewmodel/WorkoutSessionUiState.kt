@@ -5,5 +5,6 @@ import com.example.lifffter.feature_tracking.domain.models.WorkoutSession
 data class WorkoutSessionUiState(
     val loading: Boolean = false,
     val workoutSession: WorkoutSession? = null,
+    val sessionTitle: String = " ",
     val error: String? = null
 )

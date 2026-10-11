@@ -1,6 +1,9 @@
 package com.example.lifffter.feature_tracking.data.repository
 
 import android.util.Log
+import androidx.room.withTransaction
+import com.example.lifffter.core.database.LifffterDatabase
+import com.example.lifffter.feature_exercise.domain.model.Exercise
 import com.example.lifffter.feature_tracking.data.local.SetLogsEntity
 import com.example.lifffter.feature_tracking.data.local.SetWithExerciseFlat
 import com.example.lifffter.feature_tracking.data.local.WorkoutSessionDao
@@ -9,6 +12,7 @@ import com.example.lifffter.feature_tracking.data.local.WorkoutSessionWithSets
 import com.example.lifffter.feature_tracking.data.mapper.toDomain
 import com.example.lifffter.feature_tracking.data.mapper.toDomainWorkout
 import com.example.lifffter.feature_tracking.data.mapper.toDto
+import com.example.lifffter.feature_tracking.data.mapper.toEntity
 import com.example.lifffter.feature_tracking.data.mapper.toSetDtoList
 import com.example.lifffter.feature_tracking.data.remote.api.WorkoutApi
 import com.example.lifffter.feature_tracking.data.remote.api.WorkoutApiResponse
@@ -24,7 +28,8 @@ import javax.inject.Inject
 
 class ActiveWorkoutRepositoryImpl @Inject constructor(
     private val dao: WorkoutSessionDao,
-    private val api: WorkoutApi
+    private val api: WorkoutApi,
+    private val db: LifffterDatabase
 ) : ActiveWorkoutRepository {
     override fun getActiveSession(sessionId: UUID): Flow<WorkoutSession?> {
         // Getting the session entity flow
@@ -47,6 +52,7 @@ class ActiveWorkoutRepositoryImpl @Inject constructor(
     override suspend fun insertSession(session: WorkoutSession) {
         val entity = WorkoutSessionEntity(
             id = session.id,
+            title = session.title,
             routineId = session.routineId,
             startTime = session.startTime,
             endTime = session.endTime,
@@ -114,6 +120,21 @@ class ActiveWorkoutRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Log.e("Sync Error", "Network Failed", e)
         }
+    }
+
+    override suspend fun startHydratedSession(session: WorkoutSession, exercises: List<Exercise>) {
+        db.withTransaction {
+            dao.insertSession(session.toEntity())
+
+            exercises.forEach { exercise ->
+                val initialSet = WorkoutSet(id = UUID.randomUUID())
+                dao.insertSet(initialSet.toEntity(session.id, exercise.id))
+            }
+        }
+    }
+
+    override suspend fun updateSessionTitle(id: UUID, title: String) {
+        dao.updateSessionTitle(id, title)
     }
 
     override fun getWorkoutHistory(): Flow<Map<WorkoutSessionEntity, List<SetWithExerciseFlat>>> {

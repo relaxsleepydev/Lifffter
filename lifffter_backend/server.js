@@ -11,6 +11,11 @@ import workoutSessionRoutes from './routes/workoutSessionRoutes.js';
 import setLogsRoutes from './routes/setLogsRoutes.js';
 
 const app = express();
+app.use((req, res, next) => {
+    console.log(`[🚀 INCOMING REQUEST] -> ${req.method} ${req.url}`);
+    next();
+});
+
 const PORT = 3000;
 
 app.use(express.json()); // built-in middleware function 
@@ -40,7 +45,7 @@ app.get("/db-time", async (req, res) => {
 
 // starts a web server and bind the app to a specific network port
 // so it can accept incoming HTTP requests.
-app.listen(PORT, async () => { // since there is no need for callback function rn
+app.listen(PORT, '0.0.0.0', async () => { // since there is no need for callback function rn
   // This is important!
   // Without this, any startup errors will silently fail
   // instead of giving you a helpful error message.

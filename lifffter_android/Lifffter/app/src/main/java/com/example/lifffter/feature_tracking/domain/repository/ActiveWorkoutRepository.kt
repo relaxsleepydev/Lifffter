@@ -1,5 +1,6 @@
 package com.example.lifffter.feature_tracking.domain.repository
 
+import com.example.lifffter.feature_exercise.domain.model.Exercise
 import com.example.lifffter.feature_tracking.data.local.SetLogsEntity
 import com.example.lifffter.feature_tracking.data.local.SetWithExerciseFlat
 import com.example.lifffter.feature_tracking.data.local.WorkoutSessionEntity
@@ -31,4 +32,8 @@ interface ActiveWorkoutRepository {
     suspend fun addExerciseToSession(sessionId: UUID, exerciseId: String)
 
     fun getWorkoutHistory(): Flow<Map<WorkoutSessionEntity, List<SetWithExerciseFlat>>>
+
+    suspend fun startHydratedSession(session: WorkoutSession, exercises: List<Exercise>)
+
+    suspend fun updateSessionTitle(id: UUID, title: String)
 }

@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
+import com.example.lifffter.core.navigation.Screen
 import com.example.lifffter.feature_routines.domain.repository.RoutineRepository
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSession
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSet
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -30,32 +33,53 @@ class WorkoutSessionViewModel @Inject constructor(
     val activeSessionId = UUID.randomUUID()
 
     init {
-        val routineId = savedStateHandle.get<String>("routineId")
-        if(routineId != null)
-        {
-            viewModelScope.launch {
-                val routineData = repositoryRoutine.getRoutineWithExerciseById(routineId)
-                routineData?.exercises?.forEach { exercise ->
-                    repository.addExerciseToSession(activeSessionId, exercise.id)
-                }
-            }
-        }
-//        Log.d("LIFECYCLE_TEST", "ViewModel Created! Session ID: $activeSessionId")
+        val route = savedStateHandle.toRoute<Screen.WorkoutSessionScreen>()
+        val routineId = route.routineId
+
+        Log.d("HYDRATION_TEST", "Passed ID from route: $routineId")
+
         viewModelScope.launch {
+            var sessionName = "Active Workout"
+            val parsedRoutineId = routineId?.let { UUID.fromString(it) }
+
+            // 1. Fetch the routine data ONCE
+            val routineData = if (routineId != null) {
+                repositoryRoutine.getRoutineWithExerciseById(routineId)
+            } else null
+
+            Log.d("HYDRATION_TEST", "Routine Found: ${routineData?.routine?.name}")
+            Log.d("HYDRATION_TEST", "Exercise Count: ${routineData?.exercises?.size}")
+
+            // 2. Extract name if it exists
+            if (routineData != null) {
+                sessionName = routineData.routine.name
+            }
+
+            // 3. Push the name to the UI state immediately so the TextField populates
+            _state.update { it.copy(sessionTitle = sessionName) }
+
+            // 4. Create and insert the session
             val newSession = WorkoutSession(
                 id = activeSessionId,
-                routineId = null,
+                routineId = parsedRoutineId,
+                title = sessionName,
                 startTime = System.currentTimeMillis(),
                 endTime = null
             )
-            // With OnConflictStrategy.IGNORE in the DAO, this is now safe:
             repository.insertSession(newSession)
 
-            // Collect your live flow
-            repository.getActiveSession(activeSessionId).collect { session ->
-                _state.value = _state.value.copy(
-                    workoutSession = session
+            // 5. Hydrate sets using the data we ALREADY fetched
+            routineData?.exercises?.forEach { exercise ->
+                repository.insertSet(
+                    exerciseId = exercise.id,
+                    sessionId = activeSessionId,
+                    set = WorkoutSet(id = UUID.randomUUID())
                 )
+            }
+
+            // 6. Collect live flow
+            repository.getActiveSession(activeSessionId).collect { session ->
+                _state.update { it.copy(workoutSession = session) }
             }
         }
     }
@@ -75,6 +99,12 @@ class WorkoutSessionViewModel @Inject constructor(
                             endTime = null
                         )
                     )
+                }
+            }
+            is WorkoutSessionEvent.UpdateSessionTitle -> {
+                _state.update { it.copy(sessionTitle = event.title) }
+                viewModelScope.launch {
+                    repository.updateSessionTitle(activeSessionId, event.title)
                 }
             }
             is WorkoutSessionEvent.AddSet -> {

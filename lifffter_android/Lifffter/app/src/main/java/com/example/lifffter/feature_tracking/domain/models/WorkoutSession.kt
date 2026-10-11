@@ -4,6 +4,7 @@ import java.util.UUID
 
 data class WorkoutSession(
     val id: UUID,
+    val title: String = "Active Workout",
     val routineId: UUID? = null,
     val startTime: Long,
     val endTime: Long? = null,

@@ -7,8 +7,8 @@ sealed class Screen {
     @Serializable
     data object LoginScreen: Screen()
 
-    @Serializable
-    object HomeScreen: Screen()
+//    @Serializable
+//    object HomeScreen: Screen()
 
     @Serializable
     data class WorkoutSessionScreen(val routineId: String? = null): Screen()
@@ -23,4 +23,6 @@ sealed class Screen {
     object ExerciseCatalogScreen: Screen()
     @Serializable
     object DashboardScreen: Screen()
+    @Serializable
+    object ProfileScreen: Screen()
 }

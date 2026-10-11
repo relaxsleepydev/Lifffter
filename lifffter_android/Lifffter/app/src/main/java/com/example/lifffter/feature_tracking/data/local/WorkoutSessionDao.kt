@@ -68,4 +68,7 @@ interface WorkoutSessionDao {
 
     @Query("UPDATE workout_session SET endTime = :endTime WHERE id = :id")
     suspend fun updateSessionEndTime(id: UUID, endTime: Long)
+
+    @Query("UPDATE workout_session SET title = :title WHERE id = :id")
+    suspend fun updateSessionTitle(id: UUID, title: String)
 }
