@@ -1,16 +1,19 @@
 package com.example.lifffter.feature_tracking.presentation.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.lifffter.core.navigation.Screen
+import com.example.lifffter.core.workmanager.SyncWorkoutWorker
 import com.example.lifffter.feature_routines.domain.repository.RoutineRepository
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSession
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSet
 import com.example.lifffter.feature_tracking.domain.repository.ActiveWorkoutRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,7 +29,8 @@ import javax.inject.Inject
 class WorkoutSessionViewModel @Inject constructor(
     private val repository: ActiveWorkoutRepository,
     private val repositoryRoutine: RoutineRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    @ApplicationContext private val context: Context
 ): ViewModel() {
     private val _state = MutableStateFlow(WorkoutSessionUiState())
     val state = _state.asStateFlow()
@@ -42,7 +46,6 @@ class WorkoutSessionViewModel @Inject constructor(
             var sessionName = "Active Workout"
             val parsedRoutineId = routineId?.let { UUID.fromString(it) }
 
-            // 1. Fetch the routine data ONCE
             val routineData = if (routineId != null) {
                 repositoryRoutine.getRoutineWithExerciseById(routineId)
             } else null
@@ -50,15 +53,12 @@ class WorkoutSessionViewModel @Inject constructor(
             Log.d("HYDRATION_TEST", "Routine Found: ${routineData?.routine?.name}")
             Log.d("HYDRATION_TEST", "Exercise Count: ${routineData?.exercises?.size}")
 
-            // 2. Extract name if it exists
             if (routineData != null) {
                 sessionName = routineData.routine.name
             }
 
-            // 3. Push the name to the UI state immediately so the TextField populates
             _state.update { it.copy(sessionTitle = sessionName) }
 
-            // 4. Create and insert the session
             val newSession = WorkoutSession(
                 id = activeSessionId,
                 routineId = parsedRoutineId,
@@ -68,7 +68,6 @@ class WorkoutSessionViewModel @Inject constructor(
             )
             repository.insertSession(newSession)
 
-            // 5. Hydrate sets using the data we ALREADY fetched
             routineData?.exercises?.forEach { exercise ->
                 repository.insertSet(
                     exerciseId = exercise.id,
@@ -77,7 +76,6 @@ class WorkoutSessionViewModel @Inject constructor(
                 )
             }
 
-            // 6. Collect live flow
             repository.getActiveSession(activeSessionId).collect { session ->
                 _state.update { it.copy(workoutSession = session) }
             }
@@ -123,7 +121,8 @@ class WorkoutSessionViewModel @Inject constructor(
             }
             is WorkoutSessionEvent.FinishWorkout -> {
                 viewModelScope.launch {
-                    repository.finishAndSyncWorkout(activeSessionId)
+//                    repository.finishAndSyncWorkout(activeSessionId) workmanager handle it by itself so no need to call it here
+                    SyncWorkoutWorker.scheduleWorkoutSync(context, activeSessionId)
                     _uiEvent.send(UiEvent.NavigateBack)
                 }
             }
