@@ -1,5 +1,9 @@
 package com.example.lifffter.core.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -37,7 +40,8 @@ import com.example.lifffter.feature_routines.presentation.routines.CreateRoutine
 import com.example.lifffter.feature_routines.presentation.viewmodel.CreateRoutineEvent
 import com.example.lifffter.feature_routines.presentation.viewmodel.CreateRoutineViewModel
 import com.example.lifffter.feature_routines.presentation.viewmodel.RoutineViewModel
-
+import com.example.lifffter.feature_tracking.presentation.screens.workoutDetails.WorkoutDetailScreen
+import com.example.lifffter.feature_tracking.presentation.viewmodel.WorkoutDetailViewModel
 @Composable
 fun LifffterNavHost() {
 
@@ -181,9 +185,25 @@ fun LifffterNavHost() {
                 }
 
                 composable<DashboardScreen> {
-                    DashboardScreen(viewModel = hiltViewModel<DashboardViewModel>())
+                    DashboardScreen(
+                        viewModel = hiltViewModel<DashboardViewModel>(),
+                        onWorkoutClick = { sessionId ->
+                            navController.navigate(Screen.WorkoutDetailScreen(sessionId = sessionId))
+                        }
+                    )
                 }
 
+                composable<Screen.WorkoutDetailScreen>(
+                    enterTransition = { slideInHorizontally(initialOffsetX = { it }) + fadeIn() },
+                    exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) + fadeOut() },
+                    popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) + fadeIn() },
+                    popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) + fadeOut() }
+                ) {
+                    WorkoutDetailScreen(
+                        viewModel = hiltViewModel<WorkoutDetailViewModel>(),
+                        onNavigateBack = { navController.popBackStack() }
+                    )
+                }
 
                 // trailing lambda is providing the exact navBackStackEntry to the composable
                 composable<Screen.CreateRoutineScreen> { backStackEntry ->

@@ -112,3 +112,6 @@ INSERT INTO exercises (name, primary_muscle) VALUES ('EZ Barbell Curl', 'Bicep')
 SELECT * FROM set_logs;
 SELECT * FROM workout_sessions;
 SELECT * FROM exercises;
+
+SELECT * FROM workout_sessions ORDER BY start_time DESC;
+SELECT * FROM set_logs ORDER BY updated_at DzSC;

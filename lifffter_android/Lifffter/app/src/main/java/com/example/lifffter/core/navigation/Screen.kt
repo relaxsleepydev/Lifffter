@@ -25,4 +25,7 @@ sealed class Screen {
     object DashboardScreen: Screen()
     @Serializable
     object ProfileScreen: Screen()
+
+    @Serializable
+    data class WorkoutDetailScreen(val sessionId: String): Screen()
 }

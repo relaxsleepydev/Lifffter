@@ -1,6 +1,6 @@
 package com.example.lifffter.core.ui.designs
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Icon
@@ -10,6 +10,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.lifffter.R
 import com.example.lifffter.core.navigation.Screen
@@ -29,9 +30,7 @@ fun BottomAppBar(
                     painter = painterResource(R.drawable.outline_calendar_clock_24),
                     contentDescription = "Workout History Tab",
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.background(
-                        color = MaterialTheme.colorScheme.background
-                    )
+                    modifier = Modifier.size(30.dp)
                 )
             }
         )
@@ -43,7 +42,8 @@ fun BottomAppBar(
                 Icon(
                     painter = painterResource(R.drawable.outline_sticky_note_2_24),
                     contentDescription = "Routine Tab",
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(30.dp)
                 )
             }
         )
@@ -55,7 +55,8 @@ fun BottomAppBar(
                 Icon(
                     painter = painterResource(R.drawable.outline_timer_24),
                     contentDescription = "Active Workout Tab",
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(30.dp)
                 )
             }
         )
@@ -67,7 +68,8 @@ fun BottomAppBar(
                 Icon(
                     imageVector = Icons.Default.AccountCircle,
                     contentDescription = "Profile section",
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(30.dp)
                 )
             }
         )

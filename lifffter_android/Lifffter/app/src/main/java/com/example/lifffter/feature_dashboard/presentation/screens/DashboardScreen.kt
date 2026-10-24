@@ -1,5 +1,6 @@
 package com.example.lifffter.feature_dashboard.presentation.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +20,8 @@ import com.example.lifffter.feature_dashboard.presentation.viewmodel.DashboardVi
 
 @Composable
 fun DashboardScreen(
-    viewModel: DashboardViewModel = hiltViewModel()
+    viewModel: DashboardViewModel = hiltViewModel(),
+    onWorkoutClick: (String) -> Unit
 ) {
 
     val historyState by viewModel.workoutHistory.collectAsStateWithLifecycle()
@@ -35,7 +37,15 @@ fun DashboardScreen(
             // If empty, show a cool "Let's get lifting" empty state here!
 
             items(items = historyState) { item ->
-                DashboardCard(item)
+                DashboardCard(
+                    item = item,
+                    modifier = Modifier.clickable{
+                        onWorkoutClick(item.sessionId.toString())
+                    },
+                    onViewDetailsClick = {
+                        onWorkoutClick(item.sessionId.toString())
+                    }
+                )
             }
         }
     }

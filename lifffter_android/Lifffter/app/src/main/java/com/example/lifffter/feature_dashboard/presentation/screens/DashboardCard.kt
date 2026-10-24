@@ -43,15 +43,19 @@ import com.example.lifffter.feature_tracking.domain.models.WorkoutHistoryItem
 
 @Composable
 fun DashboardCard(
-    item: WorkoutHistoryItem
+    item: WorkoutHistoryItem,
+    modifier: Modifier = Modifier,
+    onViewDetailsClick: () -> Unit
 ) {
     ElevatedCard(
-        modifier = Modifier.fillMaxWidth().border(
-            border = BorderStroke(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.surfaceVariant
-            )
-        ),
+        modifier = modifier
+            .fillMaxWidth()
+            .border(
+                border = BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.surfaceVariant
+                )
+            ),
         shape = RoundedCornerShape(24.dp),
         colors = CardColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -61,7 +65,9 @@ fun DashboardCard(
         )
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(LocalSpacing.current.medium)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(LocalSpacing.current.medium)
         ) {
             Icon(
                 painter = painterResource(R.drawable.outline_fitness_center_24),
@@ -87,7 +93,9 @@ fun DashboardCard(
             )
         }
         Row(
-            modifier = Modifier.fillMaxWidth().padding(LocalSpacing.current.medium),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(LocalSpacing.current.medium),
 //            horizontalArrangement = Arrangement.Center
         ) {
             Column(
@@ -125,8 +133,10 @@ fun DashboardCard(
             }
         }
         OutlinedButton(
-            onClick = { },
-            modifier = Modifier.padding(LocalSpacing.current.small).fillMaxWidth(),
+            onClick = onViewDetailsClick,
+            modifier = Modifier
+                .padding(LocalSpacing.current.small)
+                .fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
             border = BorderStroke(
                 width = 1.dp,
