@@ -7,6 +7,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -29,10 +30,19 @@ fun BottomAppBar(
                 Icon(
                     painter = painterResource(R.drawable.outline_calendar_clock_24),
                     contentDescription = "Workout History Tab",
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.size(30.dp)
                 )
-            }
+            },
+            colors = NavigationBarItemColors(
+                selectedIconColor = MaterialTheme.colorScheme.background,
+                selectedTextColor = MaterialTheme.colorScheme.onBackground,
+                selectedIndicatorColor = MaterialTheme.colorScheme.background,
+                unselectedIconColor = MaterialTheme.colorScheme.background,
+                unselectedTextColor = MaterialTheme.colorScheme.onBackground,
+                disabledIconColor = MaterialTheme.colorScheme.background,
+                disabledTextColor = MaterialTheme.colorScheme.onBackground
+            )
         )
 
         NavigationBarItem(
@@ -42,10 +52,19 @@ fun BottomAppBar(
                 Icon(
                     painter = painterResource(R.drawable.outline_sticky_note_2_24),
                     contentDescription = "Routine Tab",
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.size(30.dp)
                 )
-            }
+            },
+            colors = NavigationBarItemColors(
+                selectedIconColor = MaterialTheme.colorScheme.background,
+                selectedTextColor = MaterialTheme.colorScheme.onBackground,
+                selectedIndicatorColor = MaterialTheme.colorScheme.background,
+                unselectedIconColor = MaterialTheme.colorScheme.background,
+                unselectedTextColor = MaterialTheme.colorScheme.onBackground,
+                disabledIconColor = MaterialTheme.colorScheme.background,
+                disabledTextColor = MaterialTheme.colorScheme.onBackground
+            )
         )
 
         NavigationBarItem(
@@ -55,10 +74,19 @@ fun BottomAppBar(
                 Icon(
                     painter = painterResource(R.drawable.outline_timer_24),
                     contentDescription = "Active Workout Tab",
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.size(30.dp)
                 )
-            }
+            },
+            colors = NavigationBarItemColors(
+                selectedIconColor = MaterialTheme.colorScheme.background,
+                selectedTextColor = MaterialTheme.colorScheme.onBackground,
+                selectedIndicatorColor = MaterialTheme.colorScheme.background,
+                unselectedIconColor = MaterialTheme.colorScheme.background,
+                unselectedTextColor = MaterialTheme.colorScheme.onBackground,
+                disabledIconColor = MaterialTheme.colorScheme.background,
+                disabledTextColor = MaterialTheme.colorScheme.onBackground
+            )
         )
 
         NavigationBarItem(
@@ -68,10 +96,19 @@ fun BottomAppBar(
                 Icon(
                     imageVector = Icons.Default.AccountCircle,
                     contentDescription = "Profile section",
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.size(30.dp)
                 )
-            }
+            },
+            colors = NavigationBarItemColors(
+                selectedIconColor = MaterialTheme.colorScheme.background,
+                selectedTextColor = MaterialTheme.colorScheme.onBackground,
+                selectedIndicatorColor = MaterialTheme.colorScheme.background,
+                unselectedIconColor = MaterialTheme.colorScheme.background,
+                unselectedTextColor = MaterialTheme.colorScheme.onBackground,
+                disabledIconColor = MaterialTheme.colorScheme.background,
+                disabledTextColor = MaterialTheme.colorScheme.onBackground
+            )
         )
     }
 }

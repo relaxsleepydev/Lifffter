@@ -42,6 +42,10 @@ import com.example.lifffter.feature_routines.presentation.viewmodel.CreateRoutin
 import com.example.lifffter.feature_routines.presentation.viewmodel.RoutineViewModel
 import com.example.lifffter.feature_tracking.presentation.screens.workoutDetails.WorkoutDetailScreen
 import com.example.lifffter.feature_tracking.presentation.viewmodel.WorkoutDetailViewModel
+import androidx.activity.compose.ReportDrawnWhen
+import androidx.compose.foundation.background
+import androidx.compose.ui.graphics.Color
+
 @Composable
 fun LifffterNavHost() {
 
@@ -50,6 +54,8 @@ fun LifffterNavHost() {
 
     val mainViewModel = hiltViewModel<MainViewModel>()
     val state by mainViewModel.state.collectAsStateWithLifecycle()
+
+    ReportDrawnWhen { state !is MainState.Loading }
 
     val startDestination = when(state) {
         is MainState.Authenticated -> DashboardScreen
@@ -114,9 +120,6 @@ fun LifffterNavHost() {
                     )
                 }
 
-//                composable<Screen.HomeScreen> {
-//                    HomeScreen()
-//                }
 
                 composable<Screen.RoutineScreen> {
                     val viewModel = hiltViewModel<RoutineViewModel>()
@@ -205,7 +208,6 @@ fun LifffterNavHost() {
                     )
                 }
 
-                // trailing lambda is providing the exact navBackStackEntry to the composable
                 composable<Screen.CreateRoutineScreen> { backStackEntry ->
                     val viewModel = hiltViewModel<CreateRoutineViewModel>()
                     val selectedExerciseId =

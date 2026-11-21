@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Lifffter"
 include(":app")
+include(":benchmark")

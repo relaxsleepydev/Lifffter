@@ -6,4 +6,5 @@ sealed class ExerciseEvent {
     data object Refresh: ExerciseEvent()
     data class OnExerciseClick(val exercise: Exercise): ExerciseEvent()
     data object SyncExercise: ExerciseEvent()
+    data class OnSearchQueryChange(val query: String): ExerciseEvent()
 }

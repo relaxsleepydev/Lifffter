@@ -11,9 +11,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.lifffter.core.ui.designs.TopBar
+import com.example.lifffter.feature_exercise.presentation.viewmodel.ExerciseEvent
 import com.example.lifffter.feature_exercise.presentation.viewmodel.ExerciseViewModel
 
 @Composable
@@ -22,11 +26,23 @@ fun ExerciseCatalogScreen(
     onExerciseClick: (String) -> Unit
 ) {
     val state by viewModel.exercises.collectAsStateWithLifecycle()
+    var isSearchActive by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             TopBar(
-                text = "Exercise Catalog"
+                text = "Exercise Catalog",
+                searchQuery = state.searchQuery,
+                onQueryChange = { newQuery ->
+                    viewModel.onEvent(ExerciseEvent.OnSearchQueryChange(newQuery))
+                },
+                isSearchActive = isSearchActive,
+                onToggleSearch = {
+                    isSearchActive = !isSearchActive
+                    if(!isSearchActive) {
+                        viewModel.onEvent(ExerciseEvent.OnSearchQueryChange(""))
+                    }
+                }
             )
         }
     ) { innerPadding ->
@@ -39,7 +55,7 @@ fun ExerciseCatalogScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(state.exercises) { exercise ->
+                items(state.filteredExercises, key = { it.id }) { exercise ->
                     ExerciseCardItem(
                         exerciseName = exercise.name,
                         exerciseMuscle = exercise.primaryMuscle,

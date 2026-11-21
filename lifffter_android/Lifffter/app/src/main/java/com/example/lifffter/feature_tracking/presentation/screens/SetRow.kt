@@ -4,6 +4,7 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
@@ -14,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
 import com.example.lifffter.core.ui.theme.LocalSpacing
 import com.example.lifffter.feature_tracking.domain.models.WorkoutSet
 import com.example.lifffter.feature_tracking.presentation.viewmodel.WorkoutSessionEvent
@@ -55,7 +57,8 @@ fun SetRow(
                 .weight(1f)
                 .padding(end = LocalSpacing.current.small),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            singleLine = true
+            singleLine = true,
+            shape = RoundedCornerShape(12.dp)
         )
 
         OutlinedTextField(
@@ -70,7 +73,8 @@ fun SetRow(
                 .weight(1f)
                 .padding(end = LocalSpacing.current.small),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            singleLine = true
+            singleLine = true,
+            shape = RoundedCornerShape(12.dp)
         )
 
         Checkbox(

@@ -53,7 +53,7 @@ fun DashboardCard(
             .border(
                 border = BorderStroke(
                     width = 1.dp,
-                    color = MaterialTheme.colorScheme.surfaceVariant
+                    color = MaterialTheme.colorScheme.onBackground.copy(0.8f)
                 )
             ),
         shape = RoundedCornerShape(24.dp),
@@ -126,10 +126,6 @@ fun DashboardCard(
                     text = "Sets: ${item.totalSets}   Reps: ${item.totalReps}",
                     style = MaterialTheme.typography.titleSmall
                 )
-//                Text(
-//                    text = "Reps: ${item.totalReps}",
-//                    style = MaterialTheme.typography.titleSmall
-//                )
             }
         }
         OutlinedButton(
@@ -140,7 +136,7 @@ fun DashboardCard(
             shape = RoundedCornerShape(12.dp),
             border = BorderStroke(
                 width = 1.dp,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onBackground.copy(0.8f)
             )
         ) {
             Text(
@@ -149,15 +145,3 @@ fun DashboardCard(
         }
     }
 }
-//        Column(
-//            verticalArrangement = Arrangement.Center,
-//            horizontalAlignment = Alignment.CenterHorizontally,
-////            modifier = Modifier.weight(1f)
-//        ) {
-//            item.exerciseName.take(3).forEach {
-//                Text(
-//                    text = it,
-//                    modifier = Modifier.weight(1f)
-//                )
-//            }
-//        }

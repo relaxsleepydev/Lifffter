@@ -1,5 +1,6 @@
 package com.example.lifffter.feature_exercise.presentation.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,12 +40,16 @@ fun ExerciseCardItem(
             .padding(LocalSpacing.current.large)
             .defaultMinSize(minHeight = 50.dp),
         colors = CardColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = Color.White,
-            disabledContainerColor = darkColors.tertiary,
-            disabledContentColor = Color.LightGray
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.onBackground,
+            disabledContainerColor = MaterialTheme.colorScheme.background,
+            disabledContentColor = MaterialTheme.colorScheme.onBackground
         ),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        border = BorderStroke(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

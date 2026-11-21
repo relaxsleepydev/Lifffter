@@ -1,5 +1,7 @@
 package com.example.lifffter.feature_routines.presentation.routines
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,8 +25,13 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.lifffter.feature_routines.presentation.viewmodel.CreateRoutineEvent
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.example.lifffter.core.ui.theme.LocalSpacing
 
 @Composable
@@ -61,7 +68,8 @@ fun CreateRoutineScreen(
             verticalArrangement = Arrangement.Top
         ) {
             Text(
-                text = "ROUTINE DETAILS"
+                text = "ROUTINE DETAILS",
+                fontWeight = FontWeight.SemiBold
             )
 
             Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
@@ -73,9 +81,11 @@ fun CreateRoutineScreen(
                 },
                 label = {
                     Text(
-                        text = "Routine Name"
+                        text = "Routine Name",
+                        fontWeight = FontWeight.SemiBold
                     )
                 },
+                shape = RoundedCornerShape(12.dp),
             )
 
             Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
@@ -87,15 +97,18 @@ fun CreateRoutineScreen(
                 },
                 label = {
                     Text(
-                        text = "Target Muscle Group"
+                        text = "Target Muscle Group",
+                        fontWeight = FontWeight.SemiBold
                     )
-                }
+                },
+                shape = RoundedCornerShape(12.dp)
             )
 
             Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
 
             Text(
-                text = "EXERCISES: ${routineState.selectedExercises.size}"
+                text = "NUMBER OF EXERCISES: ${routineState.selectedExercises.size}",
+                fontWeight = FontWeight.SemiBold
             )
 
             LazyColumn(
@@ -112,10 +125,15 @@ fun CreateRoutineScreen(
             }
 
             OutlinedButton(
-                onClick = onNavigateCatalog
+                onClick = onNavigateCatalog,
+                border = BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
             ) {
                 Text(
-                    text = "+  ADD EXERCISE"
+                    text = "+  ADD EXERCISE",
+                    fontWeight = FontWeight.SemiBold
                 )
             }
         }

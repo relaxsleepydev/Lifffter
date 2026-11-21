@@ -1,5 +1,6 @@
 package com.example.lifffter.feature_routines.presentation.routines
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -18,6 +19,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.lifffter.core.ui.theme.LocalSpacing
@@ -33,6 +35,7 @@ fun CreateRoutineTopBar(
         title = {
             Text(
                 text = "Create Routine",
+                fontWeight = FontWeight.SemiBold
             )
         },
         actions = {
@@ -40,14 +43,19 @@ fun CreateRoutineTopBar(
                 onClick = onSaveClick,
                 enabled = isSaveEnabled,
                 colors = ButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    disabledContainerColor = MaterialTheme.colorScheme.primary,
-                    disabledContentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = MaterialTheme.colorScheme.onBackground,
+                    disabledContainerColor = MaterialTheme.colorScheme.background,
+                    disabledContentColor = MaterialTheme.colorScheme.onBackground
+                ),
+                border = BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             ) {
                 Text(
-                    text = "Save"
+                    text = "Save",
+                    fontWeight = FontWeight.SemiBold
                 )
             }
         },

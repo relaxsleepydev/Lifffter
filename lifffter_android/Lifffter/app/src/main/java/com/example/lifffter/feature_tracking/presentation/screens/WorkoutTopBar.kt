@@ -1,7 +1,10 @@
 package com.example.lifffter.feature_tracking.presentation.screens
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -21,6 +24,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -31,16 +36,26 @@ fun WorkoutTopBar(
     onBackClick: () -> Unit
 ) {
     CenterAlignedTopAppBar(
-        title = { Text("Workout Session") },
+        title = {
+            Text(
+                text = "Workout Session",
+                fontWeight = FontWeight.SemiBold
+            )
+        },
         actions = {
             TextButton(
                 onClick = onFinishClick,
                 colors = ButtonColors(
-                    contentColor = Color.Black,
-                    containerColor = MaterialTheme.colorScheme.onPrimary,
-                    disabledContentColor = Color.Black,
-                    disabledContainerColor = MaterialTheme.colorScheme.onPrimary
-                )
+                    contentColor = MaterialTheme.colorScheme.onBackground,
+                    containerColor = MaterialTheme.colorScheme.background,
+                    disabledContentColor = MaterialTheme.colorScheme.onBackground,
+                    disabledContainerColor = MaterialTheme.colorScheme.background
+                ),
+                border = BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.onBackground
+                ),
+                shape = RoundedCornerShape(20.dp)
             ) {
                 Text(
                     text = "Finish"
@@ -48,21 +63,26 @@ fun WorkoutTopBar(
             }
         },
         colors = TopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.background,
             scrolledContainerColor = MaterialTheme.colorScheme.primary,
             navigationIconContentColor = MaterialTheme.colorScheme.secondary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            titleContentColor = MaterialTheme.colorScheme.onBackground,
             actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
             subtitleContentColor = MaterialTheme.colorScheme.onSurfaceVariant
         ),
         navigationIcon = {
             IconButton(
-                onClick = onBackClick
+                onClick = onBackClick,
+                modifier = Modifier.border(
+                    width = 1.dp,
+                    color =  MaterialTheme.colorScheme.onBackground,
+                    shape = CircleShape
+                )
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back Button",
-                    tint = MaterialTheme.colorScheme.background
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         }

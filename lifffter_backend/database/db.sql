@@ -114,4 +114,4 @@ SELECT * FROM workout_sessions;
 SELECT * FROM exercises;
 
 SELECT * FROM workout_sessions ORDER BY start_time DESC;
-SELECT * FROM set_logs ORDER BY updated_at DzSC;
+SELECT * FROM set_logs ORDER BY updatezd_at DzSC;

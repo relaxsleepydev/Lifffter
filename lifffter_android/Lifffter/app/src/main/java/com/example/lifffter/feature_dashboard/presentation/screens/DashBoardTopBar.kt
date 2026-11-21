@@ -37,7 +37,7 @@ fun DashboardTopBar() {
         },
         colors = TopAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
-            titleContentColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onBackground,
             subtitleContentColor = MaterialTheme.colorScheme.surfaceBright,
             actionIconContentColor = Color.Black,
             navigationIconContentColor = Color.Black,
