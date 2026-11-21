@@ -112,10 +112,26 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 ## Interface
-![Login Screen](assets/loginScreen.png)
-![Workout History Screen](assets/workoutHistoryScreen.png)
-![Workout Session Screen](assets/workoutSessionScreen.png)
-![Routine Screen](assets/routineScreen.png)
-![Create Routine Screen](assets/createRoutineScreen.png)
-![Workout Details Screen](assets/WorkoutDetailsScreen.png)
-![Exercise Catalog Screen](assets/exerciseCatalog.png)
+### Login Screen
+<img width="417" height="889" alt="Screenshot 2026-11-20 210951" src="https://github.com/user-attachments/assets/296108b7-b5cb-47e2-8346-75f4d963f928" />
+
+### Routine Screen
+<img width="417" height="869" alt="Screenshot 2026-11-20 211145" src="https://github.com/user-attachments/assets/2138e273-c5fb-44b7-81d8-2e1efd8fd961" />
+
+### Workout Session Screen
+<img width="421" height="868" alt="Screenshot 2026-11-20 211320" src="https://github.com/user-attachments/assets/f4a1d6c7-5cf6-4086-ad46-76ef59adbb24" />
+
+### Workout History Screen 
+<img width="405" height="888" alt="Screenshot 2026-11-20 211342" src="https://github.com/user-attachments/assets/c85ed9e5-506c-4a1e-94c7-5286db49724d" />
+
+### Workout Details Screen
+<img width="416" height="861" alt="Screenshot 2026-11-20 211406" src="https://github.com/user-attachments/assets/06219294-a089-4cf8-b802-735853335a9c" />
+
+### Create Routine Screen
+<img width="427" height="859" alt="Screenshot 2026-11-20 212142" src="https://github.com/user-attachments/assets/955c9ae9-3182-489e-b7dc-4006454f9ae6" />
+
+### Profile Screen
+<img width="405" height="893" alt="Screenshot 2026-11-20 212212" src="https://github.com/user-attachments/assets/03b96467-4395-46d5-a900-ab46fadff229" />
+
+### Exercise Catalog Screen
+<img width="423" height="866" alt="Screenshot 2026-11-20 214533" src="https://github.com/user-attachments/assets/c74b32e1-31c7-4259-8483-15ac9dc8b8b2" />
