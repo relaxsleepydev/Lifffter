@@ -73,19 +73,49 @@ Lifffter follows **Clean Architecture** with **MVVM/MVI** on Android and an **MV
 ```bash
 # Clone the repository and navigate to the backend folder
 git clone [https://github.com/](https://github.com/)<relaxsleepydev>/<lifffter>.git
-cd <lifffter>/lifffter_backend
 
 # Install dependencies
 npm install
 ```
+Create a `.env` file in the `lifffter_backend/` root directory:
+
+```env
+PORT=5000
+DB_USER=your_postgres_user
+DB_HOST=localhost
+DB_NAME=lifffter
+DB_PASSWORD=your_postgres_password
+DB_PORT=5432
+JWT_SECRET=your_jwt_secret_key
+```
+
+Run your PostgreSQL schema setup, then start the server:
+
+```bash
+npm start
+```
+
+### 2. Android Client Setup
+
+1. Open the `lifffter_android/` directory in **Android Studio**.
+2. Update the API base URL in your network module:
+    * **Android Emulator:** `http://10.0.2.2:5000/api/v1/`
+    * **Physical Device:** `http://<your-local-ip>:5000/api/v1/`
+3. Sync Gradle and run the app on an emulator or physical device.
+
+---
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
 ## Interface
-![Login Screen](../assets/loginScreen.png)
-![Workout History Screen](../assets/workoutHistoryScreen.png)
-![Workout Session Screen](../assets/workoutSessionScreen.png)
-![Routine Screen](../assets/routineScreen.png)
-![Create Routine Screen](../assets/createRoutineScreen.png)
-![Workout Details Screen](../assets/WorkoutDetailsScreen.png)
-![Exercise Catalog Screen](../assets/exerciseCatalog.png)
+![Login Screen](assets/loginScreen.png)
+![Workout History Screen](assets/workoutHistoryScreen.png)
+![Workout Session Screen](assets/workoutSessionScreen.png)
+![Routine Screen](assets/routineScreen.png)
+![Create Routine Screen](assets/createRoutineScreen.png)
+![Workout Details Screen](assets/WorkoutDetailsScreen.png)
+![Exercise Catalog Screen](assets/exerciseCatalog.png)
